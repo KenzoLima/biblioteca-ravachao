@@ -1,7 +1,5 @@
 package com.bibliotecaRavachao.Model;
 
-import com.bibliotecaRavachao.Model.Livro;
-
 import java.util.ArrayList;
 
 public class Categoria {
