@@ -9,7 +9,7 @@ public class Emprestimo {
     }
 
     public void setRetirada(String retirada) {
-        retirada = retirada;
+        this.retirada = retirada;
     }
 
     public String getDevolucao() {
@@ -17,6 +17,6 @@ public class Emprestimo {
     }
 
     public void setDevolucao(String devolucao) {
-        devolucao = devolucao;
+        this.devolucao = devolucao;
     }
 }

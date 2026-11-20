@@ -20,11 +20,23 @@ public class UsuarioController {
         usuario.getNome("Guinho");
         usuario.setEmail("guinho@email");
         usuario.setSenha("rezendog");
-        usuario.getDataNascimento("26/10/2006");
+        usuario.getDataNascimento(26-10-2006);
 
         model.addAttribute("usuario", usuario);
 
         return "usuario/inicio";
     }
 
+    @PostMapping public String inserirUsuario(Usuario usuario){
+        usuarios.add(usuario);
+        return "usuario/inserir";
+    }
+
+    @DeleteMapping("/excluir/{indice}")
+    public String excluirUsuario(@PathVariable int indice){
+        if (indice >= 0 && indice < usuarios.size()){
+            usuarios.remove(indice);
+        }
+        return "usuario/excluir";
+    }
 }

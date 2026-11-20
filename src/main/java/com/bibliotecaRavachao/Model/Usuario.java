@@ -16,7 +16,7 @@ public class Usuario {
         this.dataNascimento = dataNascimento;
     }
 
-    public String getNome() {
+    public String getNome(String nome) {
         return nome;
     }
 
@@ -40,7 +40,7 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public int getDataNascimento() {
+    public int getDataNascimento(int dataNascimento) {
         return dataNascimento;
     }
 
