@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "biblioteca",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": ["/c", "C:\\Users\\user\\Desktop\\bibliotecaRavachao\\mvnw.cmd", "-f", "C:\\Users\\user\\Desktop\\bibliotecaRavachao\\pom.xml", "spring-boot:run"],
+      "port": 8080,
+      "autoPort": false
+    }
+  ]
+}

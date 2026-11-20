@@ -12,16 +12,12 @@ public class LivroController {
     private List<Livro> livros = new ArrayList<Livro>();
 
     @GetMapping("/inicio") public String inicio(){
-        return "livros/inicio";
+        return "redirect:/livros";
     }
     @GetMapping
     public String inicio(Model model) {
-        Livro livro = new Livro();
-        livro.setTitulo("O Capital");
-        livro.setAutor("Marquin");
-        livro.setIsbn("0101010101");
-
-        model.addAttribute("livro", livro);
+        model.addAttribute("livro", new Livro());
+        model.addAttribute("livros", livros);
 
         return "livros/inicio";
     }
@@ -29,6 +25,26 @@ public class LivroController {
     @PostMapping
     public String cadastrar(Livro livro) {
         livros.add(livro);
+        return "redirect:/livros";
+    }
+
+    @GetMapping("/editar/{indice}")
+    public String editar(@PathVariable("indice") int indice, Model model) {
+        if (indice < 0 || indice >= livros.size()) {
+            return "redirect:/livros";
+        }
+        model.addAttribute("livro", livros.get(indice));
+        model.addAttribute("livros", livros);
+        model.addAttribute("indice", indice);
+
+        return "livros/inicio";
+    }
+
+    @PostMapping("/editar/{indice}")
+    public String atualizar(@PathVariable("indice") int indice, Livro livro) {
+        if (indice >= 0 && indice < livros.size()) {
+            livros.set(indice, livro);
+        }
         return "redirect:/livros";
     }
 

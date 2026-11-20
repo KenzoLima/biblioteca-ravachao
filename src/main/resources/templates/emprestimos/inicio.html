@@ -2,10 +2,73 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Biblioteca Ravachão</title>
+    <title>Empréstimos - Biblioteca Ravachão</title>
+    <style>
+        body {
+            background-color: #000018;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input[type="text"] {
+            padding: 6px;
+            margin: 4px;
+            border: 1px solid #ffffff;
+            border-radius: 0;
+        }
+        button {
+            padding: 6px 12px;
+            margin: 4px;
+            border: 1px solid #ffffff;
+            border-radius: 0;
+            background-color: #ffffff;
+            color: #000018;
+            cursor: pointer;
+        }
+        table {
+            border-collapse: collapse;
+            margin-top: 20px;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ffffff;
+            padding: 6px;
+            text-align: left;
+        }
+        form.excluir {
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
-    <h1>Biblioteca Ravachão</h1>
-    <p>Empréstimos funcionando!</p>
+    <div th:replace="~{fragments/menu :: menu}"></div>
+    <h1>Empréstimos</h1>
+
+    <form th:action="${indice != null} ? @{/emprestimos/editar/{i}(i=${indice})} : @{/emprestimos}" th:object="${emprestimo}" method="post">
+        <input type="text" th:field="*{retirada}" placeholder="Data de retirada">
+        <input type="text" th:field="*{devolucao}" placeholder="Data de devolução">
+        <button type="submit" th:text="${indice != null} ? 'Salvar' : 'Cadastrar'">Cadastrar</button>
+        <a th:if="${indice != null}" th:href="@{/emprestimos}">Cancelar</a>
+    </form>
+
+    <table>
+        <tr>
+            <th>Retirada</th>
+            <th>Devolução</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr th:each="e, status : ${emprestimos}">
+            <td th:text="${e.retirada}"></td>
+            <td th:text="${e.devolucao}"></td>
+            <td><a th:href="@{/emprestimos/editar/{i}(i=${status.index})}">Editar</a></td>
+            <td>
+                <form class="excluir" th:action="@{/emprestimos/excluir/{i}(i=${status.index})}" method="post">
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="submit">Excluir</button>
+                </form>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>

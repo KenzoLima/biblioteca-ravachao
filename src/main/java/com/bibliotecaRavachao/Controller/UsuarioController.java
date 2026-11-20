@@ -12,31 +12,50 @@ public class UsuarioController {
     private List<Usuario> usuarios = new ArrayList<>();
 
     @GetMapping("/inicio") public String inicio(){
-        return "usuario/inicio";
+        return "redirect:/usuario";
     }
 
     @GetMapping public String inicio(Model model){
-        Usuario usuario = new Usuario();
-        usuario.getNome("Guinho");
-        usuario.setEmail("guinho@email");
-        usuario.setSenha("rezendog");
-        usuario.getDataNascimento(26-10-2006);
-
-        model.addAttribute("usuario", usuario);
+        model.addAttribute("usuario", new Usuario());
+        model.addAttribute("usuarios", usuarios);
 
         return "usuario/inicio";
     }
 
     @PostMapping public String inserirUsuario(Usuario usuario){
         usuarios.add(usuario);
-        return "usuario/inserir";
+        return "redirect:/usuario";
+    }
+
+    @GetMapping("/editar/{indice}")
+    public String editarUsuario(@PathVariable("indice") int indice, Model model){
+        if (indice < 0 || indice >= usuarios.size()){
+            return "redirect:/usuario";
+        }
+        model.addAttribute("usuario", usuarios.get(indice));
+        model.addAttribute("usuarios", usuarios);
+        model.addAttribute("indice", indice);
+
+        return "usuario/inicio";
+    }
+
+    @PostMapping("/editar/{indice}")
+    public String atualizarUsuario(@PathVariable("indice") int indice, Usuario usuario){
+        if (indice >= 0 && indice < usuarios.size()){
+            // o campo de senha vem vazio na edição: mantém a senha antiga se não digitaram outra
+            if (usuario.getSenha() == null || usuario.getSenha().isBlank()){
+                usuario.setSenha(usuarios.get(indice).getSenha());
+            }
+            usuarios.set(indice, usuario);
+        }
+        return "redirect:/usuario";
     }
 
     @DeleteMapping("/excluir/{indice}")
-    public String excluirUsuario(@PathVariable int indice){
+    public String excluirUsuario(@PathVariable("indice") int indice){
         if (indice >= 0 && indice < usuarios.size()){
             usuarios.remove(indice);
         }
-        return "usuario/excluir";
+        return "redirect:/usuario";
     }
 }

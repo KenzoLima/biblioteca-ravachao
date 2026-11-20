@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Usuários - Biblioteca Ravachão</title>
+    <style>
+        body {
+            background-color: #000018;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input[type="text"], input[type="email"], input[type="password"], input[type="date"] {
+            padding: 6px;
+            margin: 4px;
+            border: 1px solid #ffffff;
+            border-radius: 0;
+        }
+        button {
+            padding: 6px 12px;
+            margin: 4px;
+            border: 1px solid #ffffff;
+            border-radius: 0;
+            background-color: #ffffff;
+            color: #000018;
+            cursor: pointer;
+        }
+        table {
+            border-collapse: collapse;
+            margin-top: 20px;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ffffff;
+            padding: 6px;
+            text-align: left;
+        }
+        form.excluir {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="~{fragments/menu :: menu}"></div>
+    <h1>Usuários</h1>
+
+    <form th:action="${indice != null} ? @{/usuario/editar/{i}(i=${indice})} : @{/usuario}" th:object="${usuario}" method="post">
+        <input type="text" th:field="*{nome}" placeholder="Nome">
+        <input type="email" th:field="*{email}" placeholder="E-mail">
+        <input type="password" th:field="*{senha}" placeholder="Senha">
+        <input type="date" th:field="*{dataNascimento}">
+        <button type="submit" th:text="${indice != null} ? 'Salvar' : 'Cadastrar'">Cadastrar</button>
+        <a th:if="${indice != null}" th:href="@{/usuario}">Cancelar</a>
+    </form>
+
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Data de nascimento</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr th:each="u, status : ${usuarios}">
+            <td th:text="${u.nome}"></td>
+            <td th:text="${u.email}"></td>
+            <td th:text="${u.dataNascimento}"></td>
+            <td><a th:href="@{/usuario/editar/{i}(i=${status.index})}">Editar</a></td>
+            <td>
+                <form class="excluir" th:action="@{/usuario/excluir/{i}(i=${status.index})}" method="post">
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="submit">Excluir</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

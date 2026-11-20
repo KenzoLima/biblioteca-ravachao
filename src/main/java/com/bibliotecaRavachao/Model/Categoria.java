@@ -3,8 +3,17 @@ package com.bibliotecaRavachao.Model;
 import java.util.ArrayList;
 
 public class Categoria {
-    private ArrayList<Livro> livrosGenero;
-    private ArrayList<Livro> livrosArea;
+    private String nome;
+    private ArrayList<Livro> livrosGenero = new ArrayList<>();
+    private ArrayList<Livro> livrosArea = new ArrayList<>();
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
     public ArrayList<Livro> getLivrosGenero() {
         return livrosGenero;

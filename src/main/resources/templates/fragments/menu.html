@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="menu">
+        <style>
+            a { color: #ffffff; margin-right: 12px; }
+            nav { margin-bottom: 20px; }
+        </style>
+        <nav>
+            <a th:href="@{/}">Início</a>
+            <a th:href="@{/livros}">Livros</a>
+            <a th:href="@{/autores}">Autores</a>
+            <a th:href="@{/categorias}">Categorias</a>
+            <a th:href="@{/usuario}">Usuários</a>
+            <a th:href="@{/emprestimos}">Empréstimos</a>
+        </nav>
+    </div>
+</body>
+</html>
