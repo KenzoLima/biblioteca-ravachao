@@ -12,16 +12,12 @@ public class AutorController {
     private List<Autor> autores = new ArrayList<Autor>();
 
     @GetMapping("/inicio") public String inicio(){
-        return "autores/inicio";
+        return "redirect:/autores";
     }
     @GetMapping
     public String inicio(Model model) {
-        Autor autor = new Autor();
-        autor.setNome("Karl Marx");
-        autor.setNacionalidade("Alemão");
-        autor.setObrasPublicadas("O Capital");
-
-        model.addAttribute("autor", autor);
+        model.addAttribute("autor", new Autor());
+        model.addAttribute("autores", autores);
 
         return "autores/inicio";
     }
@@ -29,6 +25,26 @@ public class AutorController {
     @PostMapping
     public String cadastrar(Autor autor) {
         autores.add(autor);
+        return "redirect:/autores";
+    }
+
+    @GetMapping("/editar/{indice}")
+    public String editar(@PathVariable("indice") int indice, Model model) {
+        if (indice < 0 || indice >= autores.size()) {
+            return "redirect:/autores";
+        }
+        model.addAttribute("autor", autores.get(indice));
+        model.addAttribute("autores", autores);
+        model.addAttribute("indice", indice);
+
+        return "autores/inicio";
+    }
+
+    @PostMapping("/editar/{indice}")
+    public String atualizar(@PathVariable("indice") int indice, Autor autor) {
+        if (indice >= 0 && indice < autores.size()) {
+            autores.set(indice, autor);
+        }
         return "redirect:/autores";
     }
 

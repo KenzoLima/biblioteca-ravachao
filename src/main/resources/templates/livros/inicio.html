@@ -2,10 +2,82 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Biblioteca Ravachão</title>
+    <title>Livros - Biblioteca Ravachão</title>
+    <style>
+        body {
+            background-color: #000018;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input[type="text"] {
+            padding: 6px;
+            margin: 4px;
+            border: 1px solid #ffffff;
+            border-radius: 0;
+        }
+        button {
+            padding: 6px 12px;
+            margin: 4px;
+            border: 1px solid #ffffff;
+            border-radius: 0;
+            background-color: #ffffff;
+            color: #000018;
+            cursor: pointer;
+        }
+        table {
+            border-collapse: collapse;
+            margin-top: 20px;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ffffff;
+            padding: 6px;
+            text-align: left;
+        }
+        form.excluir {
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
-    <h1>Biblioteca Ravachão</h1>
-    <p>Funcionando!</p>
+    <div th:replace="~{fragments/menu :: menu}"></div>
+    <h1>Livros</h1>
+
+    <form th:action="${indice != null} ? @{/livros/editar/{i}(i=${indice})} : @{/livros}" th:object="${livro}" method="post">
+        <input type="text" th:field="*{titulo}" placeholder="Título">
+        <input type="text" th:field="*{autor}" placeholder="Autor">
+        <input type="text" th:field="*{isbn}" placeholder="ISBN">
+        <input type="text" th:field="*{categoria}" placeholder="Categoria">
+        <label><input type="checkbox" th:field="*{disponivel}"> Disponível</label>
+        <button type="submit" th:text="${indice != null} ? 'Salvar' : 'Cadastrar'">Cadastrar</button>
+        <a th:if="${indice != null}" th:href="@{/livros}">Cancelar</a>
+    </form>
+
+    <table>
+        <tr>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>ISBN</th>
+            <th>Categoria</th>
+            <th>Disponível</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr th:each="l, status : ${livros}">
+            <td th:text="${l.titulo}"></td>
+            <td th:text="${l.autor}"></td>
+            <td th:text="${l.isbn}"></td>
+            <td th:text="${l.categoria}"></td>
+            <td th:text="${l.disponivel} ? 'Sim' : 'Não'"></td>
+            <td><a th:href="@{/livros/editar/{i}(i=${status.index})}">Editar</a></td>
+            <td>
+                <form class="excluir" th:action="@{/livros/excluir/{i}(i=${status.index})}" method="post">
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="submit">Excluir</button>
+                </form>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>

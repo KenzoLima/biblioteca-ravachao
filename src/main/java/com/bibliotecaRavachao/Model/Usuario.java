@@ -4,19 +4,19 @@ public class Usuario {
     private String nome;
     private String email;
     private String senha;
-    private int dataNascimento;
+    private String dataNascimento;
 
     public Usuario(){
     }
 
-    public Usuario(String nome, String email, String senha, int dataNascimento) {
+    public Usuario(String nome, String email, String senha, String dataNascimento) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.dataNascimento = dataNascimento;
     }
 
-    public String getNome(String nome) {
+    public String getNome() {
         return nome;
     }
 
@@ -40,11 +40,11 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public int getDataNascimento(int dataNascimento) {
+    public String getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(int dataNascimento) {
+    public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 }

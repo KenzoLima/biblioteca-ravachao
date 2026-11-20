@@ -12,15 +12,12 @@ public class EmprestimoController {
     private List<Emprestimo> emprestimos = new ArrayList<Emprestimo>();
 
     @GetMapping("/inicio") public String inicio(){
-        return "emprestimos/inicio";
+        return "redirect:/emprestimos";
     }
     @GetMapping
     public String inicio(Model model) {
-        Emprestimo emprestimo = new Emprestimo();
-        emprestimo.setRetirada("20/11/2026");
-        emprestimo.setDevolucao("27/11/2026");
-
-        model.addAttribute("emprestimo", emprestimo);
+        model.addAttribute("emprestimo", new Emprestimo());
+        model.addAttribute("emprestimos", emprestimos);
 
         return "emprestimos/inicio";
     }
@@ -28,6 +25,26 @@ public class EmprestimoController {
     @PostMapping
     public String cadastrar(Emprestimo emprestimo) {
         emprestimos.add(emprestimo);
+        return "redirect:/emprestimos";
+    }
+
+    @GetMapping("/editar/{indice}")
+    public String editar(@PathVariable("indice") int indice, Model model) {
+        if (indice < 0 || indice >= emprestimos.size()) {
+            return "redirect:/emprestimos";
+        }
+        model.addAttribute("emprestimo", emprestimos.get(indice));
+        model.addAttribute("emprestimos", emprestimos);
+        model.addAttribute("indice", indice);
+
+        return "emprestimos/inicio";
+    }
+
+    @PostMapping("/editar/{indice}")
+    public String atualizar(@PathVariable("indice") int indice, Emprestimo emprestimo) {
+        if (indice >= 0 && indice < emprestimos.size()) {
+            emprestimos.set(indice, emprestimo);
+        }
         return "redirect:/emprestimos";
     }
 

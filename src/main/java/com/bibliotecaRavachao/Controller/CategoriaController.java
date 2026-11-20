@@ -1,6 +1,5 @@
 package com.bibliotecaRavachao.Controller;
 import com.bibliotecaRavachao.Model.Categoria;
-import com.bibliotecaRavachao.Model.Livro;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,15 +12,12 @@ public class CategoriaController {
     private List<Categoria> categorias = new ArrayList<Categoria>();
 
     @GetMapping("/inicio") public String inicio(){
-        return "categorias/inicio";
+        return "redirect:/categorias";
     }
     @GetMapping
     public String inicio(Model model) {
-        Categoria categoria = new Categoria();
-        categoria.setLivrosGenero(new ArrayList<Livro>());
-        categoria.setLivrosArea(new ArrayList<Livro>());
-
-        model.addAttribute("categoria", categoria);
+        model.addAttribute("categoria", new Categoria());
+        model.addAttribute("categorias", categorias);
 
         return "categorias/inicio";
     }
@@ -29,6 +25,26 @@ public class CategoriaController {
     @PostMapping
     public String cadastrar(Categoria categoria) {
         categorias.add(categoria);
+        return "redirect:/categorias";
+    }
+
+    @GetMapping("/editar/{indice}")
+    public String editar(@PathVariable("indice") int indice, Model model) {
+        if (indice < 0 || indice >= categorias.size()) {
+            return "redirect:/categorias";
+        }
+        model.addAttribute("categoria", categorias.get(indice));
+        model.addAttribute("categorias", categorias);
+        model.addAttribute("indice", indice);
+
+        return "categorias/inicio";
+    }
+
+    @PostMapping("/editar/{indice}")
+    public String atualizar(@PathVariable("indice") int indice, Categoria categoria) {
+        if (indice >= 0 && indice < categorias.size()) {
+            categorias.set(indice, categoria);
+        }
         return "redirect:/categorias";
     }
 
